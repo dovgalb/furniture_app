@@ -1,8 +1,7 @@
 from datetime import date, timedelta
 import pytest
 
-from design_patterns.part1.model import Batch, OrderLine, allocate, OutOfStock
-from design_patterns.part1.test_batches import make_batch_and_line
+from model import Batch, OrderLine, allocate, OutOfStock
 
 today = date.today()
 tomorrow = today + timedelta(days=1)

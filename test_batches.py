@@ -2,8 +2,7 @@ from datetime import date
 
 import pytest
 
-from design_patterns.part1.model import Batch, OrderLine
-from solid.solid_4i import Line
+from model import Batch, OrderLine
 
 
 def make_batch_and_line(sku, batch_qty, line_qty):
