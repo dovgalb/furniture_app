@@ -20,7 +20,7 @@ def insert_order_line(session):
         'INSERT INTO order_lines(orderid, sku, qty) VALUES ("order-1", "GENERIC-SOFA", 12)'
     )
     [[orderline_id]] = session.execute(
-        "SELECT orderid, sku, qty FROM order_lines"
+        "SELECT id FROM order_lines"
         "WHERE orderid = 'order-1' AND sku = 'GENERIC-SOFA';"
     )
     return orderline_id
