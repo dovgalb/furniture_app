@@ -1,5 +1,9 @@
 POST http://localhost:5005/allocate
+Content-Type: application/json
 
 {
-"oredrid"
+"orderid": "order--ae4cb7",
+"qty": 3,
+"sku": "sku--389d02"
 }
+
