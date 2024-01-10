@@ -9,8 +9,9 @@ readme = "README.md"
 python = "^3.11"
 pytest = "^7.4.3"
 flask = "^3.0.0"
-sqlalchemy = "^2.0.23"
 requests = "^2.31.0"
+sqlalchemy = "1.4.51"
+psycopg2-binary = "^2.9.9"
 
 
 [build-system]

@@ -1,16 +1,19 @@
 from sqlalchemy import MetaData, Table, Column, Integer, String, Date, ForeignKey
-from sqlalchemy.orm import mapper
+from sqlalchemy.orm import mapper, registry, relationship
 
 from domain import model
+mapper_registry = registry()
 
 metadata = MetaData()
 
-order_lines = Table('order_lines', metadata,
-                    Column('id', Integer, primary_key=True, autoincrement=True),
-                    Column('sku', String(255)),
-                    Column('qty', Integer, nullable=False),
-                    Column('orderid', String(255)),
-                    )
+order_lines = Table(
+    'order_lines',
+    metadata,
+    Column('id', Integer, primary_key=True, autoincrement=True),
+    Column('sku', String(255)),
+    Column('qty', Integer, nullable=False),
+    Column('orderid', String(255)),
+)
 
 batches = Table(
     "batches",
