@@ -6,4 +6,15 @@ Content-Type: application/json
 "qty": 3,
 "sku": "sku--389d02"
 }
+###
 
+
+POST http://localhost:5005/add_batch
+Content-Type: application/json
+
+{
+  "ref": "batch-1",
+  "sku": "lamp",
+  "qty": 5,
+  "eta": null
+}
