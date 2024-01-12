@@ -1,8 +1,11 @@
+from datetime import datetime
+
 import pytest
 
 from domain import model
 from adapters import repository
 from service_layer import services
+from tests.unit.test_allocate import today
 
 
 class FakeRepository(repository.AbstractRepository):
@@ -13,35 +16,39 @@ class FakeRepository(repository.AbstractRepository):
         self._batches.add(batch)
 
     def get(self, reference):
-        return next(b for b in self._batches if b.reference == reference)
+        return next(b for b in self._batches if b.ref == reference)
 
     def list(self):
         return list(self._batches)
 
 
 class FakeSession():
-    commited = False
+    committed = False
 
     def commit(self):
-        self.commited = True
+        self.committed = True
+
+
+def test_add_batch():
+    repo, session = FakeRepository([]), FakeSession()
+    services.add_batch('b1', 'lamp', 100, None, repo, session)
+    assert repo.get('b1') is not None
+    assert session.committed
 
 
 def test_returns_allocations():
-    line = model.OrderLine("o1", 'lamp', 10)
-    batch = model.Batch("b1", 'lamp', 100, eta=None)
-    repo = FakeRepository([batch])
-
-    result = services.allocate(line, repo, FakeSession())
-    assert result == 'b1'
+    repo, session = FakeRepository([]), FakeSession()
+    services.add_batch('batch_0123', 'SHOWER', 20, today, repo, session)
+    result = services.allocate('line_0123', "SHOWER", 15, repo, session)
+    assert result == 'batch_0123'
 
 
 def test_error_for_invalid_sku():
-    line = model.OrderLine("o1", 'lamp', 10)
-    batch = model.Batch("b1", 'chair', 100, eta=None)
-    repo = FakeRepository([batch])
+    repo, session = FakeRepository([]), FakeSession()
+    services.add_batch('order1', 'lamp', 20, None, repo, session)
 
-    with pytest.raises(services.InvalidSku, match="Недопустимый артикул lamp"):
-        services.allocate(line, repo, FakeSession())
+    with pytest.raises(services.InvalidSku, match="Недопустимый Артикул - SHOWER"):
+        services.allocate('line_0123', 'SHOWER', 10, repo, FakeSession())
 
 
 def test_commits():
@@ -51,5 +58,4 @@ def test_commits():
     session = FakeSession()
 
     services.allocate(line, repo, session)
-    assert session.commited is True
-
+    assert session.committed is True
