@@ -1,7 +1,8 @@
 from sqlalchemy import MetaData, Table, Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import mapper, registry, relationship
 
-from domain import model
+from src.allocation.domain import model
+
 mapper_registry = registry()
 
 metadata = MetaData()

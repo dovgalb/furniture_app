@@ -1,9 +1,9 @@
 from datetime import date
 from typing import Optional
 
-from domain import model
-from domain.model import OrderLine, Batch
-from adapters.repository import AbstractRepository
+from src.allocation.domain import model
+from src.allocation.domain.model import OrderLine, Batch
+from src.allocation.adapters.repository import AbstractRepository
 
 
 class InvalidSku(Exception):
