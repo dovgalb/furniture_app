@@ -7,7 +7,7 @@ class OutOfStock(Exception):
     pass
 
 
-@dataclass(frozen=True)
+@dataclass()
 class OrderLine:
     """Немутируемый класс данных без какого-либо поведения"""
     orderid: str
