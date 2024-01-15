@@ -1,5 +1,8 @@
+from abc import ABC
+
 import pytest
 
+from allocation.service_layer.unit_of_work import AbstractUnitOfWork
 from src.allocation.domain import model
 from src.allocation.adapters import repository
 from src.allocation.service_layer import services
@@ -27,18 +30,31 @@ class FakeSession():
         self.committed = True
 
 
+class FakeUnitOfWork(AbstractUnitOfWork, ABC):
+    def __init__(self):
+        self.batches = FakeRepository([])
+        self.committed = False
+
+    def commit(self):
+        self.committed = True
+
+    def rollback(self):
+        pass
+
+
 def test_add_batch():
-    repo, session = FakeRepository([]), FakeSession()
-    services.add_batch('b1', 'lamp', 100, None, repo, session)
-    assert repo.get('b1') is not None
-    assert session.committed
+    uow = FakeUnitOfWork()
+    services.add_batch('b1', 'SOFA', 100, None, uow)
+    assert uow.batches.get('SOFA') is not None
+    assert uow.committed
 
 
-def test_returns_allocations():
-    repo, session = FakeRepository([]), FakeSession()
-    services.add_batch('batch_0123', 'SHOWER', 20, today, repo, session)
-    result = services.allocate('line_0123', "SHOWER", 15, repo, session)
-    assert result == 'batch_0123'
+def test_allocate_returns_allocation():
+    uow = FakeUnitOfWork()
+    services.add_batch('b1', 'SOFA', 100, None, uow)
+    result = services.allocate('o1', 'SOFA', 10, uow)
+    assert result == 'b1'
+
 
 
 def test_error_for_invalid_sku():

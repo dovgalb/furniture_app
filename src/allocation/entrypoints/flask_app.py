@@ -8,7 +8,7 @@ from src.allocation.domain import model
 from src.allocation.adapters import orm
 from src.allocation.adapters import repository
 from src.allocation.service_layer import services
-import config
+from allocation import config
 
 orm.start_mappers()
 get_session = sessionmaker(bind=create_engine(config.get_postgres_uri()))
