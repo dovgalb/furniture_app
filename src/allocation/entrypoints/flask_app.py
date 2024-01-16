@@ -5,10 +5,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from allocation.service_layer.unit_of_work import SQLAlchemyUnitOfWork
-from src.allocation.domain import model
-from src.allocation.adapters import orm
-from src.allocation.adapters import repository
-from src.allocation.service_layer import services
+from allocation.domain import model
+from allocation.adapters import orm
+from allocation.adapters import repository
+from allocation.service_layer import services
 from allocation import config
 
 app = Flask(__name__)

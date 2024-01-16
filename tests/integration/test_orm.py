@@ -1,7 +1,7 @@
 import pytest
 
 from allocation.service_layer.unit_of_work import SQLAlchemyUnitOfWork
-from src.allocation.domain import model
+from allocation.domain import model
 
 
 def insert_batch(session, ref, sku, qty, eta):

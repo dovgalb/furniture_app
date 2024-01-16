@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from src.allocation.domain.model import Batch
+from allocation.domain.model import Batch
 
 
 class AbstractRepository(ABC):

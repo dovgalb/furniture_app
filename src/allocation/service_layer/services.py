@@ -1,10 +1,10 @@
 from datetime import date
 from typing import Optional
 
-from src.allocation.domain import model
-from src.allocation.domain.model import OrderLine, Batch
-from src.allocation.adapters.repository import AbstractRepository
-from src.allocation.service_layer.unit_of_work import AbstractUnitOfWork
+from allocation.domain import model
+from allocation.domain.model import OrderLine, Batch
+from allocation.adapters.repository import AbstractRepository
+from allocation.service_layer.unit_of_work import AbstractUnitOfWork
 
 
 class InvalidSku(Exception):

@@ -2,7 +2,7 @@ from sqlalchemy import MetaData, Table, Column, Integer, String, Date, ForeignKe
 from sqlalchemy.orm import mapper, registry, relationship
 
 from allocation.domain.model import OrderLine
-from src.allocation.domain import model
+from allocation.domain import model
 
 metadata = MetaData()
 
