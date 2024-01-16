@@ -7,7 +7,7 @@ class OutOfStock(Exception):
     pass
 
 
-@dataclass(frozen=True)
+@dataclass(unsafe_hash=True)
 class OrderLine:
     """Немутируемый класс данных без какого-либо поведения"""
     orderid: str
@@ -21,7 +21,7 @@ class Batch:
         self.sku = sku
         self.eta = eta
         self._purchased_quantity = qty
-        self._allocations = set()  # type: [OrderLine]
+        self._allocations = set()  # type: Set[OrderLine]
 
     def __repr__(self):
         return f"<Batch {self.ref}>"

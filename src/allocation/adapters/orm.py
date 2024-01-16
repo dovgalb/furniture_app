@@ -1,11 +1,11 @@
 from sqlalchemy import MetaData, Table, Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import mapper, registry, relationship
 
+from allocation.domain.model import OrderLine
 from src.allocation.domain import model
 
-mapper_registry = registry()
-
 metadata = MetaData()
+
 
 order_lines = Table(
     'order_lines',
@@ -20,7 +20,7 @@ batches = Table(
     "batches",
     metadata,
     Column("id", Integer, primary_key=True, autoincrement=True),
-    Column('reference', String(255)),
+    Column('ref', String(255)),
     Column('sku', String(255)),
     Column('_purchased_quantity', Integer, nullable=False),
     Column('eta', Date, nullable=True),

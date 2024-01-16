@@ -39,7 +39,7 @@ class SQLAlchemyUnitOfWork(AbstractUnitOfWork, ABC):
         self.session_factory = session_factory
 
     def __enter__(self):
-        self.session = self.session_factory()
+        self.session = self.session_factory()  # type: Session
         self.batches = repository.SqlAlchemyRepository(self.session)
         return super().__enter__()
 

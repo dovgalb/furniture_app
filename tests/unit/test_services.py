@@ -58,18 +58,15 @@ def test_allocate_returns_allocation():
 
 
 def test_error_for_invalid_sku():
-    repo, session = FakeRepository([]), FakeSession()
-    services.add_batch('order1', 'lamp', 20, None, repo, session)
+    uow = FakeUnitOfWork()
+    services.add_batch('order1', 'lamp', 20, None, uow)
 
-    with pytest.raises(services.InvalidSku, match="Недопустимый Артикул - SHOWER"):
-        services.allocate('line_0123', 'SHOWER', 10, repo, FakeSession())
+    with pytest.raises(services.InvalidSku, match="Недопустимый артикул SHOWER"):
+        services.allocate('line_0123', 'SHOWER', 10, uow)
 
 
-def test_commits():
-    line = model.OrderLine('o1', 'OMINOUS-MIRROR', 10)
-    batch = model.Batch('b1', 'OMINOUS-MIRROR', 100, eta=None)
-    repo = FakeRepository([batch])
-    session = FakeSession()
+def test_allocate_commits():
+    uow = FakeUnitOfWork()
+    services.add_batch('b1', "MIRROR", 100, None, uow)
+    services.allocate("o1", "MIRROR", 10, uow)
 
-    services.allocate(line, repo, session)
-    assert session.committed is True

@@ -6,7 +6,7 @@ from src.allocation.domain import model
 
 def insert_batch(session, ref, sku, qty, eta):
     session.execute(
-        "INSERT INTO batches (reference, sku, _purchased_quantity, eta)"
+        "INSERT INTO batches (ref, sku, _purchased_quantity, eta)"
         " VALUES (:ref, :sku, :qty, :eta)",
         dict(ref=ref, sku=sku, qty=qty, eta=eta),
     )
