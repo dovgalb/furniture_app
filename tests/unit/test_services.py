@@ -10,17 +10,17 @@ from tests.unit.test_allocate import today
 
 
 class FakeRepository(repository.AbstractRepository):
-    def __init__(self, batches):
-        self._batches = set(batches)
+    def __init__(self, products):
+        self._products = set(products)
 
-    def add(self, batch):
-        self._batches.add(batch)
+    def add(self, product):
+        self._products.add(product)
 
-    def get(self, reference):
-        return next(b for b in self._batches if b.ref == reference)
+    def get(self, sku):
+        return next((p for p in self._products if p.sku == sku), None)
 
     def list(self):
-        return list(self._batches)
+        return list(self._products)
 
 
 class FakeSession():
@@ -30,10 +30,16 @@ class FakeSession():
         self.committed = True
 
 
-class FakeUnitOfWork(AbstractUnitOfWork, ABC):
+class FakeUnitOfWork(AbstractUnitOfWork):
     def __init__(self):
-        self.batches = FakeRepository([])
+        self.products = FakeRepository([])
         self.committed = False
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        pass
 
     def commit(self):
         self.committed = True
@@ -42,11 +48,18 @@ class FakeUnitOfWork(AbstractUnitOfWork, ABC):
         pass
 
 
-def test_add_batch():
+def test_add_batch_for_new_product():
     uow = FakeUnitOfWork()
     services.add_batch('b1', 'SOFA', 100, None, uow)
-    assert uow.batches.get('b1') is not None
+    assert uow.products.get('SOFA') is not None
     assert uow.committed
+
+
+def test_add_batch_for_existing_product():
+    uow = FakeUnitOfWork()
+    services.add_batch("b1", "GARISH-RUG", 100, None, uow)
+    services.add_batch("b2", "GARISH-RUG", 99, None, uow)
+    assert "b2" in [b.ref for b in uow.products.get("GARISH-RUG").batches]
 
 
 def test_allocate_returns_allocation():
