@@ -1,15 +1,15 @@
 from abc import ABC, abstractmethod
 
-from allocation.domain.model import Batch
+from allocation.domain import model
 
 
 class AbstractRepository(ABC):
     @abstractmethod
-    def add(self, batch: Batch):
+    def add(self, product: model.Product):
         raise NotImplementedError
 
     @abstractmethod
-    def get(self, reference: str) -> Batch:
+    def get(self, reference: str) -> model.Product:
         raise NotImplementedError
 
 
